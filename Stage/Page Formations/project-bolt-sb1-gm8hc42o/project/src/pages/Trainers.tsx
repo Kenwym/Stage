@@ -55,17 +55,31 @@ const trainers = [
 		contact: 'contact@tigcre.org',
 	},
 	{
-		id: 'sophie-bernard',
-		name: 'Sophie Bernard',
-		title: 'Coach en Développement Entrepreneurial',
-		specialties: ['Coaching individuel', 'Stratégie d\'entreprise', 'Communication'],
-		experience: '10 ans d\'expérience',
-		description: 'Coach certifiée, Sophie accompagne les entrepreneurs dans leur développement personnel et professionnel pour maximiser leur potentiel de réussite.',
-		image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=600',
-		rating: 4.7,
-		formations: ['Coaching Entrepreneurial', 'Coaching Relationnel'],
-		disponibilite: 'Lundi, Mardi, Jeudi',
-		certifications: ['Certification ICF', 'Master en Management']
+		id: 'jeanne',
+		name: 'Jeanne',
+		title: 'Formatrice & Équicoach',
+		specialties: [
+			'Équicoaching',
+			'Développement individuel',
+			'Développement collectif',
+			'Entreprise'
+		],
+		experience: '?',
+		description:
+			"Familière de l’univers du sport, Jeanne dirige une activité d’équicoaching et met son savoir-faire de formatrice au service du développement individuel et collectif en entreprise.",
+		image: '../components/nouveau_logo.jpg',
+		rating: '?',
+		formations: [
+			"Présentations Power Point",
+			"Fiche projet vierge à remplir par le participant"
+		],
+		disponibilite: '?',
+		certifications: ['?'],
+		materiel: [
+			"Micro-ordinateur, projecteur, supports visuels, et paperboard",
+			"Salle suffisamment grande pour permettre de former 3 à 4 sous-groupes, ou salle plénière et espaces adjacents"
+		],
+		contact: 'contact@tigcre.org',
 	}
 ];
 
@@ -112,7 +126,7 @@ const Trainers = () => {
 									<h3 className="text-xl font-bold text-gray-900 mb-1">
 										{trainer.name}
 									</h3>
-									<p className="text-blue-600 font-semibold text-sm mb-2">
+									<p className="text-orange-600 font-semibold text-sm mb-2">
 										{trainer.title}
 									</p>
 									<p className="text-gray-500 text-sm">
@@ -133,7 +147,7 @@ const Trainers = () => {
 										{trainer.specialties.map((specialty, index) => (
 											<span
 												key={index}
-												className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium"
+												className="bg-yellow-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium"
 											>
 												{specialty}
 											</span>
@@ -144,7 +158,7 @@ const Trainers = () => {
 								{/* Availability */}
 								<div className="mb-4">
 									<div className="flex items-center text-gray-600 text-sm">
-										<Calendar className="w-4 h-4 mr-2 text-green-600" />
+										<Calendar className="w-4 h-4 mr-2 text-yellow-500" />
 										<span>{trainer.disponibilite}</span>
 									</div>
 								</div>
@@ -157,7 +171,7 @@ const Trainers = () => {
 									<ul className="text-sm text-gray-600 space-y-1">
 										{trainer.formations.map((formation, index) => (
 											<li key={index} className="flex items-start">
-												<div className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2 mt-2 flex-shrink-0"></div>
+												<div className="w-1.5 h-1.5 bg-orange-500 rounded-full mr-2 mt-2 flex-shrink-0"></div>
 												{formation}
 											</li>
 										))}
@@ -166,7 +180,7 @@ const Trainers = () => {
 
 								<Link
 									to={`/formateur/${trainer.id}`}
-									className="inline-flex items-center w-full justify-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors text-sm"
+									className="inline-flex items-center w-full justify-center px-4 py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors text-sm"
 								>
 									Voir le profil
 									<ArrowRight className="ml-2 w-4 h-4" />
@@ -177,7 +191,7 @@ const Trainers = () => {
 				</div>
 
 				{/* Stats Section */}
-				<div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16">
+				<div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-8 mb-16">
 					<div className="text-center mb-8">
 						<h2 className="text-2xl font-bold text-gray-900 mb-4">
 							L'Excellence de Notre Équipe
@@ -189,18 +203,18 @@ const Trainers = () => {
 
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
 						<div>
-							<div className="text-3xl font-bold text-blue-600 mb-2">?</div>
+							<div className="text-3xl font-bold text-orange-600 mb-2">?</div>
 							<div className="text-gray-600">
 								Années d'expérience moyenne
 							</div>
 						</div>
 
 						<div>
-							<div className="text-3xl font-bold text-green-600 mb-2">?</div>
+							<div className="text-3xl font-bold text-yellow-500 mb-2">?</div>
 							<div className="text-gray-600">Note moyenne</div>
 						</div>
 						<div>
-							<div className="text-3xl font-bold text-orange-600 mb-2">?</div>
+							<div className="text-3xl font-bold text-red-500 mb-2">?</div>
 							<div className="text-gray-600">
 								Entrepreneurs accompagnés
 							</div>
