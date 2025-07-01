@@ -20,7 +20,7 @@ export default function Hero({ onRegisterClick, onAccessClick }: HeroProps) {
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 bg-clip-text text-transparent">
-              Apéri-tigcre
+              Apéri-TIGcRE
             </span>
             <br />
             <span className="text-gray-800 text-3xl sm:text-4xl lg:text-5xl">
@@ -93,7 +93,7 @@ export default function Hero({ onRegisterClick, onAccessClick }: HeroProps) {
               onClick={onRegisterClick}
               className="group bg-gradient-to-r from-orange-600 to-amber-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center space-x-2"
             >
-              <span>S'inscrire à l'événement</span>
+              <span>S'inscrire à un événement</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             

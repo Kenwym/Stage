@@ -251,7 +251,7 @@ export default function VideoConference({ userName, onLeave }: VideoConferencePr
             <span className="text-white font-bold text-sm">AT</span>
           </div>
           <div>
-            <h1 className="text-white font-semibold">Apéri-tigcre - Visioconférence</h1>
+            <h1 className="text-white font-semibold">Apéri-TIGcRE - Visioconférence</h1>
             <p className="text-gray-300 text-sm">
               {participants.length + 1} participant{participants.length > 0 ? 's' : ''}
             </p>

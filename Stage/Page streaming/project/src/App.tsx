@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import EventCalendar from './components/EventCalendar';
-import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 import RegistrationModal from './components/RegistrationModal';
 import AccessModal from './components/AccessModal';
+import HomePage from './components/HomePage';
+
+import UserDashboardPage from './components/UserDashboardPage';
+import ProjetsPage from './components/ProjetsPage';
+import ProjetPage from './components/ProjetPage';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -22,50 +25,48 @@ function App() {
     setIsAccessModalOpen(true);
   };
 
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'events':
-        return <EventCalendar onRegisterClick={handleRegisterClick} />;
-      case 'gallery':
-        return <Gallery />;
-      default:
-        return (
-          <>
-            <Hero 
-              onRegisterClick={() => handleRegisterClick()} 
-              onAccessClick={handleAccessClick}
-            />
-            <EventCalendar onRegisterClick={handleRegisterClick} />
-            <Gallery />
-          </>
-        );
+  const handleSectionChange = (section: string) => {
+    const el = document.getElementById(section);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header 
-        activeSection={activeSection} 
-        onSectionChange={setActiveSection} 
-      />
-      
-      <main className="pt-16">
-        {renderContent()}
-      </main>
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Header activeSection={activeSection} onSectionChange={handleSectionChange} />
+        <main className="pt-16">
+          <Routes>
+            <Route 
+              path="/" 
+              element={
+                <HomePage 
+                  onRegisterClick={handleRegisterClick} 
+                  onAccessClick={handleAccessClick}
+                />
+              } 
+            />
+            <Route path="/dashboard/:eventId/:accessCode?" element={<UserDashboardPage />} />
+            <Route path="/projets" element={<ProjetsPage />} />
+            <Route path="/projets/:slug" element={<ProjetPage />} />
+          </Routes>
+        </main>
+        <Footer />
 
-      <Footer />
+        <RegistrationModal
+          isOpen={isRegistrationModalOpen}
+          onClose={() => setIsRegistrationModalOpen(false)}
+          eventId={selectedEventId}
+        />
 
-      <RegistrationModal
-        isOpen={isRegistrationModalOpen}
-        onClose={() => setIsRegistrationModalOpen(false)}
-        eventId={selectedEventId}
-      />
-
-      <AccessModal
-        isOpen={isAccessModalOpen}
-        onClose={() => setIsAccessModalOpen(false)}
-      />
-    </div>
+        {/* AccessModal n'est plus utilisé comme page, mais reste accessible en modale si besoin */}
+        <AccessModal
+          isOpen={isAccessModalOpen}
+          onClose={() => setIsAccessModalOpen(false)}
+        />
+      </div>
+    </Router>
   );
 }
 

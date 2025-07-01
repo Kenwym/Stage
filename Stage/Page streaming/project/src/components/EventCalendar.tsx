@@ -21,47 +21,36 @@ export default function EventCalendar({ onRegisterClick }: EventCalendarProps) {
   const events: Event[] = [
     {
       id: '1',
-      date: '15 Mars 2025',
-      time: '18h30 - 21h30',
+      date: '3 Juillet 2025',
+      time: '19h00 - 22h00',
       location: 'Rooftop Le Perchoir',
       city: 'Paris',
       type: 'presentiel',
       capacity: 80,
-      registered: 67,
+      registered: 0,
       status: 'open'
     },
     {
       id: '2',
-      date: '22 Mars 2025',
-      time: '18h30 - 21h30',
+      date: '4 Septembre 2025',
+      time: '19h00 - 22h00',
       location: 'Centre Coworking Alsace',
       city: 'Strasbourg',
       type: 'centre',
       capacity: 30,
-      registered: 18,
+      registered: 0,
       status: 'open'
     },
     {
       id: '3',
-      date: '5 Avril 2025',
-      time: '18h30 - 21h30',
-      location: 'Terrasse Nationale',
-      city: 'Paris',
+      date: '9 Octobre 2025',
+      time: '19h00 - 22h00',
+      location: 'Hybride (Paris & Strasbourg & Visio)',
+      city: '',
       type: 'hybride',
       capacity: 100,
-      registered: 85,
+      registered: 0,
       status: 'open'
-    },
-    {
-      id: '4',
-      date: '12 Avril 2025',
-      time: '18h30 - 21h30',
-      location: 'Espace Numérique',
-      city: 'Strasbourg',
-      type: 'centre',
-      capacity: 25,
-      registered: 25,
-      status: 'full'
     }
   ];
 
@@ -121,7 +110,7 @@ export default function EventCalendar({ onRegisterClick }: EventCalendarProps) {
             </h2>
           </div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-            Découvrez les dates de nos prochains apéri-tigcres et inscrivez-vous pour participer à nos événements de networking et de présentation de projets.
+            Découvrez les dates de nos prochains Apéri-TIGcREs et inscrivez-vous pour participer à nos événements de networking et de présentation de projets.
           </p>
           
           {/* Legend */}

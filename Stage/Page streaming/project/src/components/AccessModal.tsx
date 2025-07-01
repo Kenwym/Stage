@@ -1,49 +1,59 @@
 import React, { useState } from 'react';
 import { X, Lock, Eye, EyeOff } from 'lucide-react';
-import UserDashboard from './UserDashboard';
+import { useNavigate } from 'react-router-dom';
 
 interface AccessModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+// Mapping des codes sous la forme MoisAnnee vers les eventId
+const codeToEventId: Record<string, string> = {
+  'Juillet2025': '2025-07',
+  'Fevrier2025': '2025-02',
+  'Septembre2025': '2025-09',
+  'Octobre2025': '2025-10',
+  'Novembre2024': '2024-11'
+  // Ajoute ici tous les codes nécessaires
+};
+
 export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
   const [accessCode, setAccessCode] = useState('');
   const [showCode, setShowCode] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [showDashboard, setShowDashboard] = useState(false);
   const [error, setError] = useState('');
-
-  // User data structure - replace with real API data
-  const mockUserData = {
-    name: 'Utilisateur',
-    email: 'utilisateur@email.com',
-    participationType: 'centre',
-    eventDetails: {
-      title: 'Apéri-Tigcre Hybride - Innovation & Entrepreneuriat',
-      date: '15 Mars 2025',
-      time: '18h30 - 21h30',
-      theme: 'Innovation & Entrepreneuriat - Présentation de projets tech',
-      location: 'Format Hybride',
-      address: 'Paris: Rooftop Le Perchoir, 14 Rue Crespin du Gast, 75011 Paris | Strasbourg: Centre Coworking Alsace, 15 Rue du Faubourg National, 67000 Strasbourg'
-    }
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsVerifying(true);
     setError('');
 
-    // Simulate API call to verify access code
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 800));
 
-    // Demo code for testing - replace with real API verification
-    if (accessCode === 'DEMO2025' || accessCode.length >= 8) {
-      setShowDashboard(true);
-    } else {
-      setError('Code d\'accès invalide. Vérifiez votre email de confirmation.');
+    // On normalise la casse pour éviter les erreurs de saisie
+    const code = accessCode.trim().replace(/[\s-]/g, '').toLowerCase();
+    // On cherche une correspondance insensible à la casse
+    const foundKey = Object.keys(codeToEventId).find(
+      k => k.toLowerCase() === code
+    );
+
+    if (foundKey) {
+      // On stocke le code validé en localStorage
+      localStorage.setItem('tigcre_access', foundKey);
+      navigate(`/dashboard/${codeToEventId[foundKey]}`);
+      onClose();
+      return;
     }
-    
+
+    // Code de démo
+    if (accessCode.trim().toUpperCase() === 'DEMO2025') {
+      navigate(`/dashboard/2025-02/DEMO2025`);
+      onClose();
+      return;
+    }
+
+    setError('Code d\'accès invalide. Vérifiez votre email de confirmation.');
     setIsVerifying(false);
   };
 
@@ -51,21 +61,11 @@ export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
     setAccessCode('');
     setShowCode(false);
     setIsVerifying(false);
-    setShowDashboard(false);
     setError('');
     onClose();
   };
 
   if (!isOpen) return null;
-
-  if (showDashboard) {
-    return (
-      <UserDashboard 
-        userData={mockUserData}
-        onClose={resetModal}
-      />
-    );
-  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -85,7 +85,8 @@ export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
             <Lock className="w-8 h-8 text-orange-600" />
           </div>
           <p className="text-gray-600">
-            Entrez le code d'accès unique que vous avez reçu par email après votre inscription.
+            Entrez le code d'accès unique que vous avez reçu par email après votre inscription.<br />
+            <span className="text-xs text-gray-500">Format attendu : <b>MoisAnnée</b> (ex : <b>Juillet2025</b>)</span>
           </p>
         </div>
 
@@ -100,14 +101,14 @@ export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
                 id="accessCode"
                 value={accessCode}
                 onChange={(e) => {
-                  setAccessCode(e.target.value.toUpperCase());
+                  setAccessCode(e.target.value);
                   setError('');
                 }}
                 className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-orange-500 transition-colors ${
                   error ? 'border-red-300 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'
                 }`}
-                placeholder="Entrez votre code d'accès"
-                maxLength={12}
+                placeholder="ex: Juillet2025"
+                maxLength={20}
                 required
               />
               <button

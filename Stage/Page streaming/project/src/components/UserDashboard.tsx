@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  Video, 
-  Users, 
-  Calendar, 
-  Clock, 
-  MapPin, 
-  FileText, 
-  MessageCircle, 
-  Phone, 
+import {
+  Video,
+  Users,
+  Calendar,
+  Clock,
+  MapPin,
+  FileText,
+  MessageCircle,
+  Phone,
   Mail,
   Download,
   ExternalLink,
@@ -17,6 +17,41 @@ import {
   X
 } from 'lucide-react';
 import VideoConference from './VideoConference';
+import { useNavigate } from 'react-router-dom';
+
+// Mapping des pitcheurs par eventId
+const eventPitchers: Record<string, Array<{ name: string; time: string; project?: string; img?: string; slug?: string }>> = {
+  '2025-07': [
+    {
+      name: 'Gabriel Halioui',
+      time: '19h20',
+      project: 'Accueil des participants',
+      img: '/images/participants/2025-07/arbre.jpg'
+    },
+    { name: 'Alice Martin', time: '19h30', project: 'Projet Alpha', img: '/images/participants/2025-07/alice.jpg', slug: 'alice-martin' },
+    { name: 'Bob Dupont', time: '19h40', project: 'Projet Beta', img: '/images/participants/2025-07/bob.jpg', slug: 'bob-dupont' },
+    { name: 'Chloé Dubois', time: '19h50', project: 'Projet Gamma', img: '/images/participants/2025-07/chloe.jpg' }
+  ],
+  '2025-02': [
+    {
+      name: 'Gabriel Halioui',
+      time: '19h20',
+      project: 'Accueil des participants',
+      img: '/images/participants/2025-02/arbre.jpg'
+    },
+    { name: 'David Leroy', time: '19h30', project: 'Projet Delta', img: '/images/participants/2025-02/david.jpg', slug: 'david-leroy' },
+    { name: 'Emma Petit', time: '19h40', project: 'Projet Epsilon', img: '/images/participants/2025-02/emma.jpg' }
+  ],
+  '2025-09': [
+    { name: 'Fanny Morel', time: '19h30', project: 'Projet Zeta' }
+  ],
+  '2025-10': [
+    { name: 'Gilles Bernard', time: '19h30', project: 'Projet Eta' }
+  ],
+  '2024-11': [
+    { name: 'Hugo Martin', time: '19h30', project: 'Projet Lyonnais' }
+  ]
+};
 
 interface UserDashboardProps {
   userData: {
@@ -40,6 +75,14 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
   const [userName, setUserName] = useState('');
   const [isInVideoCall, setIsInVideoCall] = useState(false);
   const [newMessage, setNewMessage] = useState('');
+  const navigate = useNavigate();
+
+  // Récupère l'eventId à partir de la date de l'événement
+  const eventId = Object.entries(eventPitchers).find(
+    ([id]) => userData.eventDetails.date.includes(id.slice(5))
+  )?.[0] || '';
+
+  const pitchers = eventPitchers[eventId] || [];
 
   const handleJoinCall = () => {
     if (!userName.trim()) {
@@ -53,10 +96,9 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
     setIsInVideoCall(false);
   };
 
-  // If user is in video call, show the video conference component
   if (isInVideoCall) {
     return (
-      <VideoConference 
+      <VideoConference
         userName={userName || userData.name}
         onLeave={handleLeaveCall}
       />
@@ -67,7 +109,8 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
     { id: 'overview', label: 'Accueil', icon: User },
     { id: 'resources', label: 'Ressources', icon: FileText },
     { id: 'community', label: 'Communauté', icon: MessageCircle },
-    { id: 'support', label: 'Support', icon: Phone }
+    { id: 'support', label: 'Support', icon: Phone },
+    { id: 'planning', label: 'Planning', icon: Calendar }
   ];
 
   const resources = [
@@ -79,24 +122,10 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
       downloadUrl: '#'
     },
     {
-      title: 'Recettes apéritives',
-      description: 'Sélection de recettes pour accompagner votre soirée',
-      type: 'PDF',
-      icon: ChefHat,
-      downloadUrl: '#'
-    },
-    {
       title: 'Template de présentation',
       description: 'Modèle PowerPoint pour présenter votre projet',
       type: 'PPTX',
       icon: Lightbulb,
-      downloadUrl: '#'
-    },
-    {
-      title: 'Liste d\'ingrédients',
-      description: 'Ingrédients recommandés pour l\'apéritif',
-      type: 'PDF',
-      icon: ChefHat,
       downloadUrl: '#'
     }
   ];
@@ -148,48 +177,48 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
   return (
     <div className="fixed inset-0 z-50 bg-gray-50 overflow-y-auto">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">AT</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-800">Apéri-tigcre Dashboard</h1>
-                <p className="text-sm text-gray-600">Bienvenue, {userData.name}</p>
-              </div>
-            </div>
-            
-            {/* Join Call Button */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <input
-                  type="text"
-                  placeholder="Votre nom pour la visio"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
-                <button
-                  onClick={handleJoinCall}
-                  className="bg-gradient-to-r from-orange-600 to-amber-600 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
-                >
-                  <Video className="w-4 h-4" />
-                  <span>Rejoindre la visio</span>
-                </button>
-              </div>
-              
-              <button
-                onClick={onClose}
-                className="text-gray-600 hover:text-gray-800 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100 shadow-sm">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex justify-between items-center h-16">
+      {/* Logo */}
+      <div className="flex items-center space-x-2">
+        <img
+          src="/images/nouveau_logo.jpg"
+          alt="Logo Apéri-TIGcRE"
+          className="w-10 h-10 rounded-lg object-cover"
+        />
+        <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+          Apéri-TIGcRE
+        </span>
+      </div>
+      {/* Visio + Fermer */}
+      <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            placeholder="Votre nom pour la visio"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          />
+          <button
+            onClick={handleJoinCall}
+            className="bg-gradient-to-r from-orange-600 to-amber-600 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
+          >
+            <Video className="w-4 h-4" />
+            <span>Rejoindre la visio</span>
+          </button>
         </div>
-      </header>
+        <button
+          onClick={onClose}
+          className="text-gray-600 hover:text-gray-800 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -222,7 +251,7 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                 {/* Welcome Section */}
                 <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-8">
                   <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                    Bienvenue à l'Apéri-tigcre, {userData.name} ! 🎉
+                    Bienvenue à l'Apéri-TIGcRE, {userData.name} ! 🎉
                   </h2>
                   <p className="text-gray-700 mb-6">
                     Nous sommes ravis de vous compter parmi nous pour cette soirée networking exceptionnelle. 
@@ -461,7 +490,7 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                           <Mail className="w-5 h-5 text-blue-600" />
                           <div>
                             <p className="font-medium text-gray-800">Email support</p>
-                            <p className="text-sm text-gray-600">support@aperi-tigcre.fr</p>
+                            <p className="text-sm text-gray-600">contact@tigcre.org</p>
                           </div>
                         </div>
                       </div>
@@ -497,6 +526,58 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'planning' && (
+              <div className="space-y-8">
+                <div className="bg-white rounded-2xl shadow-sm p-8">
+                  <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
+                    <Calendar className="w-6 h-6 text-orange-600" />
+                    <span>Planning des passages</span>
+                  </h3>
+                  {pitchers.length === 0 ? (
+                    <div className="text-gray-400 italic">Aucun pitcheur prévu pour cet événement.</div>
+                  ) : (
+                    <div className="relative pl-8">
+                      <div className="absolute left-2 top-0 bottom-0 w-1 bg-orange-200 rounded-full"></div>
+                      <ul className="space-y-6">
+                        {pitchers.map((p, idx) => (
+                          <li key={idx} className="relative flex items-center space-x-3">
+                            <span className="absolute left-[-18px] w-4 h-4 bg-orange-500 rounded-full border-2 border-white"></span>
+                            <span className="font-mono text-xs text-gray-500">{p.time}</span>
+                            {p.img ? (
+                              <img
+                                src={p.img}
+                                alt={p.name}
+                                className="w-8 h-8 rounded-full object-cover border border-orange-200"
+                              />
+                            ) : (
+                              <img
+                                src="/images/participants/arbre.jpg"
+                                alt="default"
+                                className="w-8 h-8 rounded-full object-cover border border-orange-200"
+                              />
+                            )}
+                            {p.slug ? (
+                              <button
+                                className="font-medium text-orange-700 hover:underline focus:outline-none"
+                                onClick={() => navigate(`/projets/${p.slug}`)}
+                              >
+                                {p.name}
+                              </button>
+                            ) : (
+                              <span className="font-medium text-gray-700">{p.name}</span>
+                            )}
+                            {p.project && (
+                              <span className="text-xs text-gray-400 italic">({p.project})</span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

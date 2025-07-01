@@ -20,7 +20,7 @@ export default function RegistrationModal({ isOpen, onClose, eventId }: Registra
       <div className="bg-white rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-800">Inscription Apéri-tigcre</h2>
+            <h2 className="text-2xl font-bold text-gray-800">Inscription Apéri-TIGcRE</h2>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -37,7 +37,7 @@ export default function RegistrationModal({ isOpen, onClose, eventId }: Registra
               <ExternalLink className="w-8 h-8 text-orange-600" />
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              Inscrivez-vous pour participer à l'Apéri-tigcre
+              Inscrivez-vous pour participer à l'Apéri-TIGcRE
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Remplissez notre formulaire d'inscription pour participer à nos événements networking hybrides. 
@@ -173,10 +173,10 @@ export default function RegistrationModal({ isOpen, onClose, eventId }: Registra
             <p className="text-sm text-gray-600">
               Questions ? Contactez-nous à{' '}
               <a 
-                href="mailto:pitch@tigcre.org" 
+                href="mailto:contact@tigcre.org" 
                 className="text-orange-600 hover:text-orange-700 font-medium"
               >
-                pitch@tigcre.org
+                contact@tigcre.org
               </a>
             </p>
           </div>

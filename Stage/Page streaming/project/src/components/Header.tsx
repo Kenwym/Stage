@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Users, Image, Menu, X } from 'lucide-react';
-
+import logo from '/images/nouveau_logo.jpg'; // Import the image
 interface HeaderProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
@@ -20,17 +20,19 @@ export default function Header({ activeSection, onSectionChange }: HeaderProps) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div 
+            <div
             className="flex items-center space-x-2 cursor-pointer group"
             onClick={() => onSectionChange('home')}
-          >
-            <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
-              <span className="text-white font-bold text-sm">AT</span>
-            </div>
+            >
+            <img
+              src={logo}
+              alt="Logo Apéri-TIGcRE"
+              className="w-10 h-10 rounded-lg object-cover group-hover:scale-105 transition-transform"
+            />
             <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-              Apéri-tigcre
+              Apéri-TIGcRE
             </span>
-          </div>
+            </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
