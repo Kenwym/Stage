@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Calendar, Users, Image, Menu, X } from 'lucide-react';
-import logo from '/images/nouveau_logo.jpg'; // Import the image
+import logo from '/images/nouveau_logo.jpg';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 interface HeaderProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
@@ -8,6 +10,8 @@ interface HeaderProps {
 
 export default function Header({ activeSection, onSectionChange }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navigation = [
     { id: 'home', label: 'Accueil', icon: Calendar },
@@ -15,15 +19,26 @@ export default function Header({ activeSection, onSectionChange }: HeaderProps) 
     { id: 'gallery', label: 'Galerie', icon: Image },
   ];
 
+  // Fonction utilitaire pour revenir à la home si besoin
+  const goHomeAndSection = (section: string) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      // On attend le retour à la home avant de scroller (léger délai)
+      setTimeout(() => onSectionChange(section), 50);
+    } else {
+      onSectionChange(section);
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-            <div
+          <div
             className="flex items-center space-x-2 cursor-pointer group"
-            onClick={() => onSectionChange('home')}
-            >
+            onClick={() => goHomeAndSection('home')}
+          >
             <img
               src={logo}
               alt="Logo Apéri-TIGcRE"
@@ -32,14 +47,14 @@ export default function Header({ activeSection, onSectionChange }: HeaderProps) 
             <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
               Apéri-TIGcRE
             </span>
-            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {navigation.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => onSectionChange(id)}
+                onClick={() => goHomeAndSection(id)}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ${
                   activeSection === id
                     ? 'bg-orange-100 text-orange-600'
@@ -69,7 +84,7 @@ export default function Header({ activeSection, onSectionChange }: HeaderProps) 
                 <button
                   key={id}
                   onClick={() => {
-                    onSectionChange(id);
+                    goHomeAndSection(id);
                     setIsMobileMenuOpen(false);
                   }}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
