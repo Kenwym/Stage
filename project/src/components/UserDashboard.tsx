@@ -529,7 +529,16 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                             </div>
                             {/* Nom */}
                             <div className="col-span-4">
-                              <span className="font-medium text-gray-700">{p.name}</span>
+                              {p.slug ? (
+                                <Link
+                                  to={`/profil/${p.slug}`}
+                                  className="font-medium text-orange-700 hover:underline"
+                                >
+                                  {p.name}
+                                </Link>
+                              ) : (
+                                <span className="font-medium text-gray-700">{p.name}</span>
+                              )}
                             </div>
                             {/* Projet */}
                             <div className="col-span-4">

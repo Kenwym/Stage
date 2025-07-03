@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { projets } from '../data/projets';
+import { profils } from '../data/profils';
 
 export default function ProjetsPage() {
   return (
@@ -10,7 +11,7 @@ export default function ProjetsPage() {
           <li key={p.slug} className="flex items-center space-x-4 bg-white rounded-xl shadow p-4">
             <img
               src={p.img || '/images/participants/arbre.jpg'}
-              alt={p.name}
+              alt={p.project}
               className="w-14 h-14 rounded-full object-cover border border-orange-200"
             />
             <div className="flex-1">
@@ -21,7 +22,20 @@ export default function ProjetsPage() {
                 {p.project}
               </Link>
               <div className="text-gray-700 text-sm">
-                {p.name}
+                {p.authors && p.authors.map((slug, i) => {
+                  const profil = profils.find(pr => pr.slug === slug);
+                  return profil ? (
+                    <span key={slug}>
+                      {i > 0 && ', '}
+                      <Link
+                        to={`/profil/${profil.slug}`}
+                        className="text-orange-700 hover:underline"
+                      >
+                        {profil.name}
+                      </Link>
+                    </span>
+                  ) : null;
+                })}
                 {p.events && p.events.length > 0 && (
                   <> — <span className="text-gray-400">{p.events.join(', ')}</span></>
                 )}

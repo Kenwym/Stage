@@ -17,29 +17,29 @@
 
 export const projets = [
   {
-    name: 'Alice Martin',
+    authors: ['alice-martin'], // tableau de slugs
     slug: 'alice-martin',
     project: 'Projet Alpha',
     short: 'Une solution innovante pour la gestion des ressources.',
-    img: '/images/participants/2025-07/alice.jpg',
+    img: '/images/participants/alice.jpeg',
     description: 'Projet Alpha vise à révolutionner la gestion des ressources en entreprise grâce à une plateforme intelligente et collaborative.',
     events: ['2025-07']
   },
   {
-    name: 'Bob Dupont',
+    authors: ['bob-dupont', 'alice-martin'],
     slug: 'bob-dupont',
     project: 'Projet Beta',
     short: 'Application mobile pour faciliter le networking.',
-    img: '/images/participants/2025-07/bob.jpg',
+    img: '/images/participants/bob.jpeg',
     description: 'Projet Beta est une application mobile qui connecte les professionnels lors d\'événements pour maximiser les opportunités de networking.',
     events: ['2025-07']
   },
   {
-    name: 'David Leroy',
+    authors: ['david-leroy'],
     slug: 'david-leroy',
     project: 'Projet Delta',
     short: 'Plateforme de partage de connaissances.',
-    img: '/images/participants/2025-07/david.jpg',
+    img: '/images/participants/david.jpeg',
     description: 'Projet Delta propose une plateforme où les membres peuvent partager et organiser des ressources et des savoirs.',
     events: ['2025-07', '2025-02']
   }

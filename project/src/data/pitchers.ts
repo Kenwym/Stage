@@ -30,14 +30,14 @@ export const pitchers: Pitcher[] = [
     name: 'Gabriel Halioui',
     time: '19h20',
     project: 'Accueil des participants',
-    img: '/images/participants/2025-07/gabriel_halioui.jpeg',
+    img: '/images/participants/gabriel_halioui.jpeg',
     events: ['2025-07']
   },
   {
     name: 'Alice Martin',
     time: '19h30',
     project: 'Projet Alpha',
-    img: '/images/participants/2025-07/alice.jpeg',
+    img: '/images/participants/alice.jpeg',
     slug: 'alice-martin',
     events: ['2025-07']
   },
@@ -45,7 +45,7 @@ export const pitchers: Pitcher[] = [
     name: 'Bob Dupont',
     time: '19h40',
     project: 'Projet Beta',
-    img: '/images/participants/2025-07/bob.jpeg',
+    img: '/images/participants/bob.jpeg',
     slug: 'bob-dupont',
     events: ['2025-07']
   },
@@ -53,14 +53,14 @@ export const pitchers: Pitcher[] = [
     name: 'Chloé Dubois',
     time: '19h50',
     project: 'Projet Gamma',
-    img: '/images/participants/2025-07/chloe.jpeg',
+    img: '/images/participants/chloe.jpeg',
     events: ['2025-07']
   },
   {
     name: 'David Leroy',
     time: '20h00',
     project: 'Projet Delta',
-    img: '/images/participants/2025-07/david.jpeg',
+    img: '/images/participants/david.jpeg',
     slug: 'david-leroy',
     events: ['2025-07', '2025-02']
   },
@@ -68,7 +68,7 @@ export const pitchers: Pitcher[] = [
     name: 'Emma Petit',
     time: '19h40',
     project: 'Projet Epsilon',
-    img: '/images/participants/2025-02/emma.jpg',
+    img: '/images/participants/emma.jpg',
     events: ['2025-02']
   },
   {

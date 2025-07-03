@@ -1,5 +1,6 @@
 import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import { projets } from '../data/projets';
+import { profils } from '../data/profils';
 
 export default function ProjetPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -24,12 +25,26 @@ export default function ProjetPage() {
     <div className="max-w-2xl mx-auto py-12">
       <img
         src={projet.img || '/images/participants/arbre.jpg'}
-        alt={projet.name}
+        alt={projet.project}
         className="w-24 h-24 rounded-full object-cover border border-orange-200 mb-4"
       />
       <h1 className="text-3xl font-bold mb-2">{projet.project}</h1>
       <h2 className="text-xl text-gray-700 mb-6">
-        par {projet.name}
+        par{' '}
+        {projet.authors && projet.authors.map((slug, i) => {
+          const profil = profils.find(pr => pr.slug === slug);
+          return profil ? (
+            <span key={slug}>
+              {i > 0 && ', '}
+              <Link
+                to={`/profil/${profil.slug}`}
+                className="text-orange-700 hover:underline"
+              >
+                {profil.name}
+              </Link>
+            </span>
+          ) : null;
+        })}
         {projet.events && projet.events.length > 0 && (
           <span> — {projet.events.join(', ')}</span>
         )}

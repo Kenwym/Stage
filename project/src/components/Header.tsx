@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Users, Image, Menu, X } from 'lucide-react';
+import { Calendar, Users, Image, Menu, X, User } from 'lucide-react';
 import logo from '/images/nouveau_logo.jpg';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -50,7 +50,7 @@ export default function Header({ activeSection, onSectionChange }: HeaderProps) 
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-8 items-center">
             {navigation.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
@@ -65,6 +65,14 @@ export default function Header({ activeSection, onSectionChange }: HeaderProps) 
                 <span className="font-medium">{label}</span>
               </button>
             ))}
+            {/* Lien profils */}
+            <button
+              onClick={() => navigate('/profils')}
+              className="flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+            >
+              <User size={18} />
+              <span className="font-medium">Profils</span>
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -97,6 +105,17 @@ export default function Header({ activeSection, onSectionChange }: HeaderProps) 
                   <span className="font-medium">{label}</span>
                 </button>
               ))}
+              {/* Lien profils mobile */}
+              <button
+                onClick={() => {
+                  navigate('/profils');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+              >
+                <User size={20} />
+                <span className="font-medium">Profils</span>
+              </button>
             </nav>
           </div>
         )}

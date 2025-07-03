@@ -9,6 +9,8 @@ import HomePage from './components/HomePage';
 import UserDashboardPage from './components/UserDashboardPage';
 import ProjetsPage from './components/ProjetsPage';
 import ProjetPage from './components/ProjetPage';
+import ProfilPage from './components/ProfilPage';
+import ProfilsPage from './components/ProfilsPage';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -50,6 +52,8 @@ function App() {
             <Route path="/dashboard/:eventId" element={<UserDashboardPage />} />
             <Route path="/projets" element={<ProjetsPage />} />
             <Route path="/projets/:slug" element={<ProjetPage />} />
+            <Route path="/profil/:slug" element={<ProfilPage />} />
+            <Route path="/profils" element={<ProfilsPage />} />
           </Routes>
         </main>
         <Footer />
