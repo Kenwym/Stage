@@ -1,58 +1,13 @@
 import React from 'react';
 import { Calendar, MapPin, Users, Clock, Video } from 'lucide-react';
-
-interface Event {
-  id: string;
-  date: string;
-  time: string;
-  location: string;
-  city: string;
-  type: 'presentiel' | 'centre' | 'hybride';
-  capacity: number;
-  registered: number;
-  status: 'open' | 'full' | 'closed';
-}
+import { events, Event } from '../data/events'; // <-- Ajout
 
 interface EventCalendarProps {
   onRegisterClick: (eventId: string) => void;
 }
 
 export default function EventCalendar({ onRegisterClick }: EventCalendarProps) {
-  const events: Event[] = [
-    {
-      id: '1',
-      date: '3 Juillet 2025',
-      time: '19h00 - 22h00',
-      location: 'Rooftop Le Perchoir',
-      city: 'Paris',
-      type: 'presentiel',
-      capacity: 80,
-      registered: 0,
-      status: 'open'
-    },
-    {
-      id: '2',
-      date: '4 Septembre 2025',
-      time: '19h00 - 22h00',
-      location: 'Centre Coworking Alsace',
-      city: 'Strasbourg',
-      type: 'centre',
-      capacity: 30,
-      registered: 0,
-      status: 'open'
-    },
-    {
-      id: '3',
-      date: '9 Octobre 2025',
-      time: '19h00 - 22h00',
-      location: 'Hybride (Paris & Strasbourg & Visio)',
-      city: '',
-      type: 'hybride',
-      capacity: 100,
-      registered: 0,
-      status: 'open'
-    }
-  ];
+  // events est maintenant importé depuis le fichier data/events.ts
 
   const getStatusColor = (status: string) => {
     switch (status) {

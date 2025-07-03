@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { X, Lock, Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { accessCodes } from '../data/accessCodes'; // <-- Ajout
 
 interface AccessModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-// Mapping des codes sous la forme MoisAnnee vers les eventId
-const codeToEventId: Record<string, string> = {
-  'Juillet2025': '2025-07',
-  'Fevrier2025': '2025-02',
-  'Septembre2025': '2025-09',
-  'Octobre2025': '2025-10',
-  'Novembre2024': '2024-11'
-  // Ajoute ici tous les codes nécessaires
-};
 
 export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
   const [accessCode, setAccessCode] = useState('');
@@ -34,14 +25,14 @@ export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
     // On normalise la casse pour éviter les erreurs de saisie
     const code = accessCode.trim().replace(/[\s-]/g, '').toLowerCase();
     // On cherche une correspondance insensible à la casse
-    const foundKey = Object.keys(codeToEventId).find(
+    const foundKey = Object.keys(accessCodes).find(
       k => k.toLowerCase() === code
     );
 
     if (foundKey) {
       // On stocke le code validé en localStorage
       localStorage.setItem('tigcre_access', foundKey);
-      navigate(`/dashboard/${codeToEventId[foundKey]}`);
+      navigate(`/dashboard/${accessCodes[foundKey]}`);
       onClose();
       return;
     }
@@ -86,7 +77,7 @@ export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
           </div>
           <p className="text-gray-600">
             Entrez le code d'accès unique que vous avez reçu par email après votre inscription.<br />
-            <span className="text-xs text-gray-500">Format attendu : <b>MoisAnnée</b> (ex : <b>Juillet2025</b>)</span>
+            
           </p>
         </div>
 
@@ -142,11 +133,7 @@ export default function AccessModal({ isOpen, onClose }: AccessModalProps) {
           </p>
         </div>
 
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <p className="text-xs text-gray-600">
-            <strong>Démo :</strong> Utilisez le code "DEMO2025" pour tester la fonctionnalité
-          </p>
-        </div>
+      
       </div>
     </div>
   );

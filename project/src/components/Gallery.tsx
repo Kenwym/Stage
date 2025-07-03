@@ -1,38 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Image } from 'lucide-react';
-
-interface GalleryImage {
-  id: string;
-  src: string;
-  alt: string;
-  event: string;
-  date: string;
-}
-
-const galleries: { date: string; event: string; images: GalleryImage[] }[] = [
-  {
-    date: 'Février 2025',
-    event: 'Apéri-TIGcRE Paris',
-    images: Array.from({ length: 9 }, (_, i) => ({
-      id: `${i + 1}`,
-      src: `/images/2025-02/${i + 1}.png`,
-      alt: `Photo ${i + 1} - Apéri-TIGcRE Paris Février 2025`,
-      event: 'Apéri-TIGcRE Paris',
-      date: 'Février 2025'
-    }))
-  },
-  {
-    date: 'Novembre 2024',
-    event: 'Apéri-TIGcRE Lyon',
-    images: Array.from({ length: 6 }, (_, i) => ({
-      id: `${i + 1}`,
-      src: `/images/2024-11/${i + 1}.png`,
-      alt: `Photo ${i + 1} - Apéri-TIGcRE Lyon Novembre 2024`,
-      event: 'Apéri-TIGcRE Lyon',
-      date: 'Novembre 2024'
-    }))
-  }
-];
+import { galleries } from '../data/galleries';
 
 export default function Gallery() {
   const [carouselIndex, setCarouselIndex] = useState<{ [date: string]: number }>({

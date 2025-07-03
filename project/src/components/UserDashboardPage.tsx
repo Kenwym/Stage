@@ -1,84 +1,8 @@
 import { useParams } from 'react-router-dom';
 import UserDashboard from './UserDashboard';
 import { useEffect, useState } from 'react';
-
-// Mapping du code (MoisAnnée) vers l'eventId
-const codeToEventId: Record<string, string> = {
-  'Juillet2025': '2025-07',
-  'Fevrier2025': '2025-02',
-  'Septembre2025': '2025-09',
-  'Octobre2025': '2025-10',
-  'Novembre2024': '2024-11'
-};
-
-// Mapping des eventId vers les données de l'événement
-const eventDataMap: Record<string, any> = {
-  '2025-07': {
-    name: 'Utilisateur',
-    email: 'utilisateur@email.com',
-    participationType: 'presentiel',
-    eventDetails: {
-      title: 'Apéri-TIGcRE Paris',
-      date: '3 Juillet 2025',
-      time: '19h00 - 22h00',
-      theme: 'Innovation & Entrepreneuriat',
-      location: 'Rooftop Le Perchoir, Paris',
-      address: '14 Rue Crespin du Gast, 75011 Paris'
-    }
-  },
-  '2025-02': {
-    name: 'Utilisateur',
-    email: 'utilisateur@email.com',
-    participationType: 'presentiel',
-    eventDetails: {
-      title: 'Apéri-TIGcRE Paris (Février)',
-      date: 'Février 2025',
-      time: '19h00 - 22h00',
-      theme: 'Tech & Innovation',
-      location: 'Paris',
-      address: 'Adresse à venir'
-    }
-  },
-  '2025-09': {
-    name: 'Utilisateur',
-    email: 'utilisateur@email.com',
-    participationType: 'presentiel',
-    eventDetails: {
-      title: 'Apéri-TIGcRE Paris (Septembre)',
-      date: '4 Septembre 2025',
-      time: '19h00 - 22h00',
-      theme: 'Rentrée & Projets',
-      location: 'Paris',
-      address: 'Adresse à venir'
-    }
-  },
-  '2025-10': {
-    name: 'Utilisateur',
-    email: 'utilisateur@email.com',
-    participationType: 'presentiel',
-    eventDetails: {
-      title: 'Apéri-TIGcRE Paris (Octobre)',
-      date: '9 Octobre 2025',
-      time: '19h00 - 22h00',
-      theme: 'Automne & Réseautage',
-      location: 'Paris',
-      address: 'Adresse à venir'
-    }
-  },
-  '2024-11': {
-    name: 'Utilisateur',
-    email: 'utilisateur@email.com',
-    participationType: 'centre',
-    eventDetails: {
-      title: 'Apéri-TIGcRE Lyon',
-      date: 'Novembre 2024',
-      time: '19h00 - 22h00',
-      theme: 'Entreprendre ensemble',
-      location: 'Lyon',
-      address: 'Adresse à venir'
-    }
-  }
-};
+import { events } from '../data/events';
+import { accessCodes } from '../data/accessCodes'; // Ajout
 
 export default function UserDashboardPage() {
   const { eventId } = useParams();
@@ -87,8 +11,27 @@ export default function UserDashboardPage() {
 
   useEffect(() => {
     const code = localStorage.getItem('tigcre_access');
-    if (code && codeToEventId[code] === eventId) {
-      setUserData(eventDataMap[eventId || '']);
+    // Utilise le mapping centralisé
+    if (code && accessCodes[code] === eventId) {
+      const event = events.find(e => e.id === eventId);
+
+      const userData = event
+        ? {
+            name: 'Utilisateur',
+            email: 'utilisateur@email.com',
+            participationType: event.participationType || 'presentiel',
+            eventDetails: {
+              title: event.title,
+              date: event.date,
+              time: event.time,
+              theme: event.theme,
+              location: event.location,
+              address: event.address
+            }
+          }
+        : null;
+
+      setUserData(userData);
       setValid(true);
     } else {
       setValid(false);

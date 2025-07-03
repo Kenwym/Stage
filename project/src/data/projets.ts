@@ -1,3 +1,20 @@
+/**
+ * Liste centralisée des projets présentés lors des événements Apéri-TIGcRE.
+ *
+ * À quoi servent ces données ?
+ * ----------------------------
+ * - Chaque objet représente un projet présenté par un participant (nom, slug, titre du projet, description, image, événements associés, etc.).
+ * - Le champ "events" permet d'associer un même projet à plusieurs événements (multi-présentation).
+ * - Ces données sont utilisées pour afficher dynamiquement la liste des projets, les pages projet, et les liens depuis le planning.
+ *
+ * Ce que ça change sur le site :
+ * -----------------------------
+ * - Toutes les infos sur les projets sont centralisées ici : plus besoin de modifier le composant pour ajouter, retirer ou corriger un projet.
+ * - Pour ajouter un projet à un événement, il suffit d'ajouter son eventId dans le tableau "events".
+ * - La liste des projets, les pages projet et les liens depuis le planning sont automatiquement mis à jour selon ce fichier.
+ * - Facilite la maintenance, la cohérence et l'évolution du site (ajout d'un projet, correction d'une info, etc.).
+ */
+
 export const projets = [
   {
     name: 'Alice Martin',

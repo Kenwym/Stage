@@ -18,41 +18,10 @@ import {
 } from 'lucide-react';
 import VideoConference from './VideoConference';
 import { useNavigate, Link, useParams } from 'react-router-dom';
+import { pitchers } from '../data/pitchers'; // <-- Ajout
 
 // Mapping des pitcheurs par eventId
-const eventPitchers: Record<string, Array<{ name: string; time: string; project?: string; img?: string; slug?: string }>> = {
-  '2025-07': [
-    {
-      name: 'Gabriel Halioui',
-      time: '19h20',
-      project: 'Accueil des participants',
-      img: '/images/participants/2025-07/arbre.jpg'
-    },
-    { name: 'Alice Martin', time: '19h30', project: 'Projet Alpha', img: '/images/participants/2025-07/alice.jpg', slug: 'alice-martin' },
-    { name: 'Bob Dupont', time: '19h40', project: 'Projet Beta', img: '/images/participants/2025-07/bob.jpg', slug: 'bob-dupont' },
-    { name: 'Chloé Dubois', time: '19h50', project: 'Projet Gamma', img: '/images/participants/2025-07/chloe.jpg' },
-    { name: 'David Leroy', time: '20h00', project: 'Projet Delta', img: '/images/participants/2025-07/david.jpg', slug: 'david-leroy' }
-  ],
-  '2025-02': [
-    {
-      name: 'Gabriel Halioui',
-      time: '19h20',
-      project: 'Accueil des participants',
-      img: '/images/participants/2025-02/arbre.jpg'
-    },
-    { name: 'David Leroy', time: '19h30', project: 'Projet Delta', img: '/images/participants/2025-02/david.jpg', slug: 'david-leroy' },
-    { name: 'Emma Petit', time: '19h40', project: 'Projet Epsilon', img: '/images/participants/2025-02/emma.jpg' }
-  ],
-  '2025-09': [
-    { name: 'Fanny Morel', time: '19h30', project: 'Projet Zeta' }
-  ],
-  '2025-10': [
-    { name: 'Gilles Bernard', time: '19h30', project: 'Projet Eta' }
-  ],
-  '2024-11': [
-    { name: 'Hugo Martin', time: '19h30', project: 'Projet Lyonnais' }
-  ]
-};
+
 
 interface UserDashboardProps {
   userData: {
@@ -79,8 +48,8 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
   const navigate = useNavigate();
   const { eventId } = useParams<{ eventId: string }>();
 
-  // Utilise uniquement l'eventId de l'URL pour tout le dashboard
-  const pitchers = eventPitchers[eventId || ''] || [];
+  // Récupère les pitcheurs pour l'event courant
+  const pitchersForEvent = pitchers.filter(p => p.events.includes(eventId || ''));
 
   const handleJoinCall = () => {
     if (!userName.trim()) {
@@ -535,42 +504,46 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                     <Calendar className="w-6 h-6 text-orange-600" />
                     <span>Planning des passages</span>
                   </h3>
-                  {pitchers.length === 0 ? (
+                  {pitchersForEvent.length === 0 ? (
                     <div className="text-gray-400 italic">Aucun pitcheur prévu pour cet événement.</div>
                   ) : (
                     <div className="relative pl-8">
                       <div className="absolute left-2 top-0 bottom-0 w-1 bg-orange-200 rounded-full"></div>
                       <ul className="space-y-6">
-                        {pitchers.map((p, idx) => (
-                          <li key={idx} className="relative flex items-center space-x-3">
-                            <span className="absolute left-[-18px] w-4 h-4 bg-orange-500 rounded-full border-2 border-white"></span>
-                            <span className="font-mono text-xs text-gray-500">{p.time}</span>
-                            {p.img ? (
+                        {pitchersForEvent.map((p, idx) => (
+                          <li
+                            key={idx}
+                            className="relative grid grid-cols-12 items-center bg-white rounded-xl shadow p-4 gap-4"
+                          >
+                            {/* Heure */}
+                            <div className="col-span-2 flex items-center">
+                              <span className="font-mono text-xs text-gray-500">{p.time}</span>
+                            </div>
+                            {/* Photo */}
+                            <div className="col-span-2 flex items-center justify-center">
                               <img
-                                src={p.img}
+                                src={p.img || '/images/participants/arbre.jpg'}
                                 alt={p.name}
-                                className="w-8 h-8 rounded-full object-cover border border-orange-200"
+                                className="w-10 h-10 rounded-full object-cover border border-orange-200"
                               />
-                            ) : (
-                              <img
-                                src="/images/participants/arbre.jpg"
-                                alt="default"
-                                className="w-8 h-8 rounded-full object-cover border border-orange-200"
-                              />
-                            )}
-                            {p.slug ? (
-                              <Link
-                                to={`/projets/${p.slug}?eventId=${eventId}`}
-                                className="font-medium text-orange-700 hover:underline focus:outline-none"
-                              >
-                                {p.name}
-                              </Link>
-                            ) : (
+                            </div>
+                            {/* Nom */}
+                            <div className="col-span-4">
                               <span className="font-medium text-gray-700">{p.name}</span>
-                            )}
-                            {p.project && (
-                              <span className="text-xs text-gray-400 italic">({p.project})</span>
-                            )}
+                            </div>
+                            {/* Projet */}
+                            <div className="col-span-4">
+                              {p.slug ? (
+                                <Link
+                                  to={`/projets/${p.slug}?eventId=${eventId}`}
+                                  className="text-base font-semibold text-orange-700 hover:underline transition-colors"
+                                >
+                                  {p.project}
+                                </Link>
+                              ) : (
+                                <span className="text-base font-semibold text-gray-500">{p.project}</span>
+                              )}
+                            </div>
                           </li>
                         ))}
                       </ul>
