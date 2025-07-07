@@ -142,9 +142,9 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
   const participationInfo = getParticipationTypeInfo();
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-50 overflow-y-auto">
+    <div className="min-h-screen bg-gray-50 overflow-y-auto">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100 shadow-sm">
+      <header className="bg-white/80 backdrop-blur-md border-b border-orange-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -441,7 +441,6 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                     <Phone className="w-6 h-6 text-orange-600" />
                     <span>Support et assistance</span>
                   </h3>
-                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                       <h4 className="font-semibold text-gray-800 mb-4">Contacts d'urgence</h4>
@@ -462,7 +461,6 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                         </div>
                       </div>
                     </div>
-                    
                     <div>
                       <h4 className="font-semibold text-gray-800 mb-4">FAQ Rapide</h4>
                       <div className="space-y-3">
@@ -531,7 +529,7 @@ export default function UserDashboard({ userData, onClose }: UserDashboardProps)
                             <div className="col-span-4">
                               {p.slug ? (
                                 <Link
-                                  to={`/profil/${p.slug}`}
+                                  to={`/profil/${p.slug}${eventId ? `?eventId=${eventId}` : ''}`}
                                   className="font-medium text-orange-700 hover:underline"
                                 >
                                   {p.name}
